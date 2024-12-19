@@ -1,5 +1,7 @@
+import './calendar.css'
+
 export default function Calendar() {
-  const FULL_CALENDAR = process.env.QUICK_VIEW_CALENDAR
+  const FULL_CALENDAR = process.env.FULL_CALENDAR
 
   return (
     <main>
