@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Navbar from "./_components/Navbar";
 
 export default function Home() {
   const quickViewCalendar = process.env.QUICK_VIEW_CALENDAR
