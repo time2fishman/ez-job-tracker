@@ -1,0 +1,10 @@
+[
+  {
+    "firstName": "John",
+    "lastName": "Doe",
+    "address": "35 Wicked Rd",
+    "city": "Rancho",
+    "state": "MI",
+    "zip": 12344
+  }
+]

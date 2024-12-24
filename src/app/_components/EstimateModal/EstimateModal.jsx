@@ -1,4 +1,6 @@
 import "./EstimateModal.css";
+import data from "@/app/data/client-data.json";
+import estimateData from "@/app/data/estimates.json";
 
 function EstimateModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -21,20 +23,28 @@ function EstimateModal({ isOpen, onClose }) {
       <div className="flex">
         <div>
           <h3>Bill To:</h3>
-          <p className="text-gray-500 py-1">John Doe</p>
-          <p className="text-gray-500 py-1">35 Wicked Rd</p>
-          <p className="text-gray-500 pt-1">Rancho, MI 12344</p>
+          <p className="text-gray-500 py-1">
+            {data[0].firstName} {data[0].lastName}
+          </p>
+          <p className="text-gray-500 py-1">{data[0].address}</p>
+          <p className="text-gray-500 pt-1">
+            {data[0].city}, {data[0].state} {data[0].zip}
+          </p>
         </div>
         <div className="flex grow justify-center mb-20">
           <div>
             <p className="py-1">Estimate#</p>
-            <p className="py-1">Invoice Date </p>
+            <p className="py-1">Estimate Date </p>
             <p className="pt-1">Due Date</p>
           </div>
           <div>
-            <p className="text-gray-500 pl-5 py-1">9027348</p>
-            <p className="text-gray-500 pl-5 py-1">9027348</p>
-            <p className="text-gray-500 pl-5 pt-1">9027348</p>
+            <p className="text-gray-500 pl-5 py-1">
+              {estimateData[0].estimateId}
+            </p>
+            <p className="text-gray-500 pl-5 py-1">
+              {estimateData[0].estimateDate}
+            </p>
+            <p className="text-gray-500 pl-5 pt-1">{estimateData[0].dueDate}</p>
           </div>
         </div>
       </div>
@@ -50,16 +60,28 @@ function EstimateModal({ isOpen, onClose }) {
           </thead>
           <tbody>
             <tr className="border border-gray-400">
-              <td className="p-2">Labor</td>
-              <td className="p-2 border-l border-gray-400">7</td>
-              <td className="p-2 border-l border-gray-400">50.00</td>
-              <td className="p-2 border-l border-gray-400">350.00</td>
+              <td className="p-2">{estimateData[0].itemDescription1}</td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].qty1}
+              </td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].rate1}
+              </td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].amount1}
+              </td>
             </tr>
             <tr className="border border-gray-400">
-              <td className="p-2">Materials</td>
-              <td className="p-2 border-l border-gray-400">N/A</td>
-              <td className="p-2 border-l border-gray-400">N/A</td>
-              <td className="p-2 border-l border-gray-400">650.00</td>
+              <td className="p-2">{estimateData[0].itemDescription2}</td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].qty2}
+              </td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].rate2}
+              </td>
+              <td className="p-2 border-l border-gray-400 text-right">
+                {estimateData[0].amount1}
+              </td>
             </tr>
           </tbody>
           <tfoot>
@@ -79,7 +101,9 @@ function EstimateModal({ isOpen, onClose }) {
               <td className="p-2"></td>
               <td className="p-2"></td>
               <td className="text-lg pt-6 pb-2 px-2">Total</td>
-              <td className="pt-6 pb-2 px-2">1100.00</td>
+              <td className="pt-6 pb-2 px-2 text-right">
+                {estimateData[0].total}
+              </td>
             </tr>
           </tfoot>
         </table>
