@@ -1,9 +1,41 @@
 [
   {
+    "id": 1,
     "firstName": "John",
     "lastName": "Doe",
+    "email": "jdoe@gmail.com",
     "address": "35 Wicked Rd",
     "city": "Rancho",
+    "state": "MI",
+    "zip": 12344,
+    "estimates": [
+      {
+        "estimateId": 9027948,
+        "estimateDate": "12/24/2024",
+        "dueDate": "01/15/2024",
+        "itemDescription1": "Paint Living Room",
+        "itemDescription2": "Materials",
+        "itemDescription3": "Disposal Fee",
+        "qty1": 1,
+        "qty2": 5,
+        "qty3": 1,
+        "rate1": "50.00",
+        "rate2": "N/A",
+        "rate3": "15.00",
+        "amount1": "350.00",
+        "amount2": "250.00",
+        "amount3": "15.00",
+        "total": "1100.00"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "firstName": "Jim",
+    "lastName": "Bob",
+    "email": "jBob@gmail.com",
+    "address": "355 Green Rd",
+    "city": "Apollo",
     "state": "MI",
     "zip": 12344
   }
