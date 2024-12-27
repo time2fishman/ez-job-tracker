@@ -70,7 +70,7 @@ export default function EstimatesPage() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                       {clientInfo ? clientInfo.map((client) => (
-                        <tr key={client.id} className="cursor-pointer" onClick={handleOpenModal} >
+                        <tr key={client.id} className="cursor-pointer" onClick={handleOpenModal}>
                           {client.estimates.map((estimate) => (
                             <React.Fragment key={estimate.estimateId}>
                               <td key={`estimate-id-${estimate.estimateId}`} className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
@@ -109,11 +109,21 @@ export default function EstimatesPage() {
                               {/* <td key={`purchase-${estimate.estimateId}`} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{estimate.purchase}</td> */}
                               <td key={`actions-${estimate.estimateId}`} className="px-4 py-4 text-sm whitespace-nowrap">
                                 <div className="flex items-center gap-x-6">
-                                  <button className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      alert('You have elected to archive this estimate.')
+                                    }}
+                                    className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
                                     Archive
                                   </button>
 
-                                  <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      alert('You have elected to dowload this estimate.')
+                                    }}
+                                    className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                     Download
                                   </button>
                                 </div>
