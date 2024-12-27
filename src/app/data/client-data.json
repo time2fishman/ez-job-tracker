@@ -8,10 +8,13 @@
     "city": "Rancho",
     "state": "MI",
     "zip": 12344,
+    "image": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
     "estimates": [
       {
-        "estimateId": 9027948,
+        "estimateId": "9027948",
         "estimateDate": "12/24/2024",
+        "status": "Accepted",
+        "purchase": "Monthly subscription",
         "dueDate": "01/15/2024",
         "itemDescription1": "Paint Living Room",
         "itemDescription2": "Materials",
@@ -33,10 +36,33 @@
     "id": 2,
     "firstName": "Jim",
     "lastName": "Bob",
-    "email": "jBob@gmail.com",
+    "email": "jbobjadslkfj;adlsfj@gmail.com",
     "address": "355 Green Rd",
     "city": "Apollo",
     "state": "MI",
-    "zip": 12344
+    "zip": 12344,
+    "image": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+    "estimates": [
+      {
+        "estimateId": 9027949,
+        "estimateDate": "12/26/2024",
+        "status": "Declined",
+        "purchase": "None",
+        "dueDate": "01/15/2024",
+        "itemDescription1": "Remodel bathrrom",
+        "itemDescription2": "Materials",
+        "itemDescription3": "Disposal Fee",
+        "qty1": 24,
+        "qty2": 1,
+        "qty3": 1,
+        "rate1": "50.00",
+        "rate2": "N/A",
+        "rate3": "15.00",
+        "amount1": "1200.00",
+        "amount2": "550.00",
+        "amount3": "15.00",
+        "total": "1765.00"
+      }
+    ]
   }
 ]

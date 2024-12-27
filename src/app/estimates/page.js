@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image";
-import { useState } from "react";
+import React, { useState } from "react";
 import EstimateModal from "@/app/_components/EstimateModal/EstimateModal"
 import clientInfo from "@/app/data/client-data.json"
 
@@ -59,9 +59,9 @@ export default function EstimatesPage() {
                           Customer
                         </th>
 
-                        <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        {/* <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                           Purchase
-                        </th>
+                        </th> */}
 
                         <th scope="col" className="relative py-3.5 px-4">
                           <span className="sr-only">Actions</span>
@@ -69,48 +69,60 @@ export default function EstimatesPage() {
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                      {clientInfo ? clientInfo.map((client) => {
-                        return (
-                          <tr className="cursor-pointer" onClick={handleOpenModal} key={client.id} >
-                            <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                              <div className="inline-flex items-center gap-x-3">
-                                <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
-                                <span>#3066</span>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Jan 6, 2022</td>
-                            <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                              <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <h2 className="text-sm font-normal">Paid</h2>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                              <div className="flex items-center gap-x-2">
-                                <Image className="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" width={0} height={0} />
-                                <div>
-                                  <h2 className="text-sm font-medium text-gray-800 dark:text-white ">{client.firstName} {client.lastName}</h2>
-                                  <p className="text-xs font-normal text-gray-600 dark:text-gray-400">{client.email}</p>
+                      {clientInfo ? clientInfo.map((client) => (
+                        <tr key={client.id} className="cursor-pointer" onClick={handleOpenModal} >
+                          {client.estimates.map((estimate) => (
+                            <React.Fragment key={estimate.estimateId}>
+                              <td key={`estimate-id-${estimate.estimateId}`} className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                                <div className="inline-flex items-center gap-x-3">
+                                  <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                                  <span>{estimate.estimateId}</span>
                                 </div>
-                              </div>
-                            </td>
-                            <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Monthly subscription</td>
-                            <td className="px-4 py-4 text-sm whitespace-nowrap">
-                              <div className="flex items-center gap-x-6">
-                                <button className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-                                  Archive
-                                </button>
+                              </td>
+                              <td key={`date-${estimate.estimateId}`} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{estimate.estimateDate}</td>
+                              <td key={`status-${estimate.estimateId}`} className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                {estimate.status === "Accepted" ?
+                                  <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                    <h2 className="text-sm font-normal">{estimate.status}</h2>
+                                  </div>
+                                  :
+                                  <div className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                    <h2 className="text-sm font-normal">{estimate.status}</h2>
+                                  </div>
+                                }
+                              </td>
+                              <td key={`customer-${estimate.estimateId}`} className="pl-4 pr-8 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                <div className="flex items-center gap-x-2">
+                                  <Image className="object-cover w-8 h-8 rounded-full" src={client.image} alt="" width={0} height={0} />
+                                  <div>
+                                    <h2 className="text-sm font-medium text-gray-800 dark:text-white ">{client.firstName} {client.lastName}</h2>
+                                    <p className="text-xs font-normal text-gray-600 dark:text-gray-400">{client.email}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              {/* <td key={`purchase-${estimate.estimateId}`} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{estimate.purchase}</td> */}
+                              <td key={`actions-${estimate.estimateId}`} className="px-4 py-4 text-sm whitespace-nowrap">
+                                <div className="flex items-center gap-x-6">
+                                  <button className="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                    Archive
+                                  </button>
 
-                                <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                  Download
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        )
-                      }) : <tr>
+                                  <button className="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                    Download
+                                  </button>
+                                </div>
+                              </td>
+                            </React.Fragment>
+                          ))}
+                        </tr>
+
+                      )) : <tr>
 
                         <td className="text-center p-6" colSpan={6}>
                           <div><h2 className="text-lg">There are currently no estimates</h2></div></td></tr>}
