@@ -20,8 +20,8 @@ function EstimateModal({ isOpen, onClose }) {
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
       const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = pdfWidth - imgWidth * ratio;
-      const imgY = 0;
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 30;
       pdf.addImage(
         imgData,
         "PNG",
@@ -142,14 +142,14 @@ function EstimateModal({ isOpen, onClose }) {
         </div>
         <div className="flex justify-evenly">
           <button
-            className="border bg-indigo-700 rounded px-3.5 py-1 mt-5 flex justify-self-end text-gray-300 mb-4"
+            className="border bg-indigo-700 rounded py-2 px-4 mt-5 text-gray-300 mb-4"
             onClick={downloadPDF}
           >
             Dowload PDF
           </button>
           <button
             onClick={onClose}
-            className="border bg-indigo-700 rounded px-3.5 py-1 mt-5 flex justify-self-end text-gray-300 mb-4"
+            className="border bg-indigo-700 rounded py-2 px-4 mt-5 text-gray-300 mb-4"
           >
             Close
           </button>
