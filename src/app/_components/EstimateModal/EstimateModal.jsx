@@ -1,42 +1,42 @@
 import "./EstimateModal.css";
-import jsPDF from "jspdf";
+// import jsPDF from "jspdf";
 import data from "@/app/data/client-data.json";
 import estimateData from "@/app/data/estimates.json";
-import html2canvas from "html2canvas";
-import React, { useRef } from "react";
+// import html2canvas from "html2canvas";
+// import React, { useRef } from "react";
 
 function EstimateModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
-  const pdfRef = useRef();
+  // const pdfRef = useRef();
 
-  const downloadPDF = () => {
-    const input = pdfRef.current;
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4", true);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = canvas.width;
-      const imgHeight = canvas.height;
-      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-      const imgX = (pdfWidth - imgWidth * ratio) / 2;
-      const imgY = 30;
-      pdf.addImage(
-        imgData,
-        "PNG",
-        imgX,
-        imgY,
-        imgWidth * ratio,
-        imgHeight * ratio
-      );
-      pdf.save("estimate.pdf");
-    });
-  };
+  // const downloadPDF = () => {
+  //   const input = pdfRef.current;
+  //   html2canvas(input).then((canvas) => {
+  //     const imgData = canvas.toDataURL("image/png");
+  //     const pdf = new jsPDF("p", "mm", "a4", true);
+  //     const pdfWidth = pdf.internal.pageSize.getWidth();
+  //     const pdfHeight = pdf.internal.pageSize.getHeight();
+  //     const imgWidth = canvas.width;
+  //     const imgHeight = canvas.height;
+  //     const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+  //     const imgX = (pdfWidth - imgWidth * ratio) / 2;
+  //     const imgY = 30;
+  //     pdf.addImage(
+  //       imgData,
+  //       "PNG",
+  //       imgX,
+  //       imgY,
+  //       imgWidth * ratio,
+  //       imgHeight * ratio
+  //     );
+  //     pdf.save("estimate.pdf");
+  //   });
+  // };
 
   return (
     <>
-      <div className="modal-container text-black" ref={pdfRef}>
+      <div className="modal-container text-black">
         <div className="flex">
           <img
             alt="Demo Company"
@@ -140,13 +140,14 @@ function EstimateModal({ isOpen, onClose }) {
             </tfoot>
           </table>
         </div>
-        <div className="flex justify-evenly">
+        {/* <div className="flex justify-evenly">
           <button
             className="border bg-indigo-700 rounded py-2 px-4 mt-5 text-gray-300 mb-4"
             onClick={downloadPDF}
           >
             Dowload PDF
-          </button>
+          </button> */}
+        <div className="flex justify-end">
           <button
             onClick={onClose}
             className="border bg-indigo-700 rounded py-2 px-4 mt-5 text-gray-300 mb-4"
@@ -155,6 +156,7 @@ function EstimateModal({ isOpen, onClose }) {
           </button>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

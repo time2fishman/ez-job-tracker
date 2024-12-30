@@ -62,10 +62,10 @@ export default function EstimatesPage() {
                         {/* <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                           Purchase
                         </th> */}
-
+                        {/* 
                         <th scope="col" className="relative py-3.5 px-4">
                           <span className="sr-only">Actions</span>
-                        </th>
+                        </th> */}
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
@@ -107,7 +107,7 @@ export default function EstimatesPage() {
                                 </div>
                               </td>
                               {/* <td key={`purchase-${estimate.estimateId}`} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{estimate.purchase}</td> */}
-                              <td key={`actions-${estimate.estimateId}`} className="px-4 py-4 text-sm whitespace-nowrap">
+                              {/* <td key={`actions-${estimate.estimateId}`} className="px-4 py-4 text-sm whitespace-nowrap">
                                 <div className="flex items-center gap-x-6">
                                   <button
                                     onClick={(e) => {
@@ -127,7 +127,7 @@ export default function EstimatesPage() {
                                     Download
                                   </button>
                                 </div>
-                              </td>
+                              </td> */}
                             </React.Fragment>
                           ))}
                         </tr>
