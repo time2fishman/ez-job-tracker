@@ -1,11 +1,25 @@
 import Link from "next/link";
 
+const response = await fetch('http://localhost:3000/api/users/create', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    username: 'Test User',
+    email: 'testuser@fake.com'
+  })
+})
+
+const data = await response.json()
+console.log(data);
+
 export default function Home() {
   const quickViewCalendar = process.env.QUICK_VIEW_CALENDAR
 
   return (
     <>
-      <h1 className="text-4xl text-center mt-10">
+      <h1 className="main-heading text-4xl text-center mt-10">
         Welcome to EZ-Job Tracker
       </h1>
       <main>

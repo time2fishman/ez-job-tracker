@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
-import EstimateModal from "@/app/_components/EstimateModal/EstimateModal"
+import EstimateModal from "@/app/pages/_components/EstimateModal/EstimateModal"
 import clientInfo from "@/app/data/client-data.json"
 
 export default function EstimatesPage() {
@@ -20,7 +20,7 @@ export default function EstimatesPage() {
     <>
       {isModalOpen ? <EstimateModal isOpen={isModalOpen} onClose={handleCloseModal} /> :
         <section className="container px-4 mx-auto mb-20 z-0">
-          <h1 className="text-4xl mt-10 mb-4">Estimates</h1>
+          <h1 id="heading" className="text-4xl mt-10 mb-4">Estimates</h1>
           <div className="pb-4 text-right">
             <button
               className="bg-indigo-700 p-1.5 border rounded font-semibold hover:bg-indigo-500 active:bg-indigo-800 ">Create New Estimate</button>

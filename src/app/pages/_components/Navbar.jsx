@@ -14,9 +14,9 @@ import { usePathname } from "next/navigation";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Estimates", href: "/estimates" },
-  { name: "Invoices", href: "/invoices" },
-  { name: "Calendar", href: "/calendar" },
+  { name: "Estimates", href: "/pages/estimates" },
+  { name: "Invoices", href: "/pages/invoices" },
+  { name: "Calendar", href: "/pages/calendar" },
 ];
 
 function classNames(...classes) {
