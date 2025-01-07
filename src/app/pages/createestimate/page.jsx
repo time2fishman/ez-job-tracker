@@ -1,9 +1,76 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export default function CreateEstimatePage() {
   const [rows, setRows] = useState([]);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    phone: "",
+  });
+  // const formRef = useRef(null);
+  console.log(formData);
+
+  const handleFirstNameChange = (e) => {
+    setFormData({
+      ...formData,
+      firstName: e.target.value,
+    });
+  };
+  const handleLastNameChange = (e) => {
+    setFormData({
+      ...formData,
+      lastName: e.target.value,
+    });
+  };
+  const handleEmailChange = (e) => {
+    setFormData({
+      ...formData,
+      email: e.target.value,
+    });
+  };
+  const handleAddressChange = (e) => {
+    setFormData({
+      ...formData,
+      address: e.target.value,
+    });
+  };
+  const handleCityChange = (e) => {
+    setFormData({
+      ...formData,
+      city: e.target.value,
+    });
+  };
+  const handleStateChange = (e) => {
+    setFormData({
+      ...formData,
+      state: e.target.value,
+    });
+  };
+  const handleZipChange = (e) => {
+    setFormData({
+      ...formData,
+      zip: e.target.value,
+    });
+  };
+  const handlePhoneChange = (e) => {
+    setFormData({
+      ...formData,
+      phone: e.target.value,
+    });
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
+
+  // const data = new FormData(formRef.current);
 
   const addRow = () => {
     setRows([
@@ -24,6 +91,17 @@ export default function CreateEstimatePage() {
     );
   };
 
+  // fetch("/api/submit", {
+  //   method: "POST",
+  //   body: data,
+  // })
+  //   .then((response) => {
+  //     console.log(response);
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
+
   return (
     <div className="m-auto bg-gray-100 text-black min-w-fit max-w-4xl">
       <h1 className="text-4xl pt-10 pb-10 ml-4">Create New Estimate</h1>
@@ -36,10 +114,12 @@ export default function CreateEstimatePage() {
                 First Name
               </label>
               <input
+                onChange={handleFirstNameChange}
                 maxLength={50}
                 type="text"
                 id="fname"
                 name="fname"
+                value={formData.firstName}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -49,10 +129,12 @@ export default function CreateEstimatePage() {
                 Last Name
               </label>
               <input
+                onChange={handleLastNameChange}
                 maxLength={25}
                 type="text"
                 id="lname"
                 name="lname"
+                value={formData.lastName}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -62,10 +144,12 @@ export default function CreateEstimatePage() {
                 Email
               </label>
               <input
+                onChange={handleEmailChange}
                 maxLength={25}
                 type="email"
                 id="email"
                 name="email"
+                value={formData.email}
                 className="border px-1 mb-2 w-full"
               />
             </div>
@@ -74,9 +158,11 @@ export default function CreateEstimatePage() {
                 Address
               </label>
               <input
+                onChange={handleAddressChange}
                 type="text"
                 id="address"
                 name="address"
+                value={formData.address}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -86,9 +172,11 @@ export default function CreateEstimatePage() {
                 City
               </label>
               <input
+                onChange={handleCityChange}
                 type="text"
                 id="city"
                 name="city"
+                value={formData.city}
                 className="border px-1 mb-2 w-full"
                 maxLength={25}
                 required
@@ -100,9 +188,11 @@ export default function CreateEstimatePage() {
                 State
               </label>
               <input
+                onChange={handleStateChange}
                 type="text"
                 id="state"
                 name="state"
+                value={formData.state}
                 className="border px-1 mb-2"
                 minLength={2}
                 maxLength={2}
@@ -114,9 +204,11 @@ export default function CreateEstimatePage() {
             <div>
               <label className="block">Zip</label>
               <input
+                onChange={handleZipChange}
                 type="text"
                 id="zip"
                 name="zip"
+                value={formData.zip}
                 className="px-1 border mb-2"
                 minLength={5}
                 maxLength={5}
@@ -127,9 +219,11 @@ export default function CreateEstimatePage() {
             <div>
               <label className="block">Phone</label>
               <input
+                onChange={handlePhoneChange}
                 type="tel"
                 id="phone"
                 name="phone"
+                value={formData.phone}
                 className="px-1 border mb-10 placeholder:text-center"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 maxLength={12}
