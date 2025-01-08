@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import axios from "axios";
+import { useState } from "react";
 
 export default function CreateEstimatePage() {
   const [rows, setRows] = useState([]);
@@ -14,63 +15,26 @@ export default function CreateEstimatePage() {
     zip: "",
     phone: "",
   });
-  // const formRef = useRef(null);
-  console.log(formData);
 
-  const handleFirstNameChange = (e) => {
-    setFormData({
-      ...formData,
-      firstName: e.target.value,
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { firstName, lastName, email, address, city, state, zip, phone } =
+        formData;
+      const response = await axios.post("../../api/customers", {
+        firstName,
+        lastName,
+        email,
+        address,
+        city,
+        state,
+        zip,
+        phone,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const handleLastNameChange = (e) => {
-    setFormData({
-      ...formData,
-      lastName: e.target.value,
-    });
-  };
-  const handleEmailChange = (e) => {
-    setFormData({
-      ...formData,
-      email: e.target.value,
-    });
-  };
-  const handleAddressChange = (e) => {
-    setFormData({
-      ...formData,
-      address: e.target.value,
-    });
-  };
-  const handleCityChange = (e) => {
-    setFormData({
-      ...formData,
-      city: e.target.value,
-    });
-  };
-  const handleStateChange = (e) => {
-    setFormData({
-      ...formData,
-      state: e.target.value,
-    });
-  };
-  const handleZipChange = (e) => {
-    setFormData({
-      ...formData,
-      zip: e.target.value,
-    });
-  };
-  const handlePhoneChange = (e) => {
-    setFormData({
-      ...formData,
-      phone: e.target.value,
-    });
-  };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  // };
-
-  // const data = new FormData(formRef.current);
 
   const addRow = () => {
     setRows([
@@ -91,21 +55,11 @@ export default function CreateEstimatePage() {
     );
   };
 
-  // fetch("/api/submit", {
-  //   method: "POST",
-  //   body: data,
-  // })
-  //   .then((response) => {
-  //     console.log(response);
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
-
   return (
     <div className="m-auto bg-gray-100 text-black min-w-fit max-w-4xl">
       <h1 className="text-4xl pt-10 pb-10 ml-4">Create New Estimate</h1>
-      <form action={""} id="form" method="post" className="mx-8">
+      <form onSubmit={handleSubmit} className="mx-8">
+        {/* Customer Fields */}
         <fieldset className="mb-8">
           <legend className="text-2xl mb-8">Customer Information</legend>
           <div className="max-w-xs px-4">
@@ -114,12 +68,16 @@ export default function CreateEstimatePage() {
                 First Name
               </label>
               <input
-                onChange={handleFirstNameChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    firstName: e.target.value,
+                  })
+                }
                 maxLength={50}
                 type="text"
                 id="fname"
                 name="fname"
-                value={formData.firstName}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -129,12 +87,16 @@ export default function CreateEstimatePage() {
                 Last Name
               </label>
               <input
-                onChange={handleLastNameChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    lastName: e.target.value,
+                  })
+                }
                 maxLength={25}
                 type="text"
                 id="lname"
                 name="lname"
-                value={formData.lastName}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -144,12 +106,16 @@ export default function CreateEstimatePage() {
                 Email
               </label>
               <input
-                onChange={handleEmailChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    email: e.target.value,
+                  })
+                }
                 maxLength={25}
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
                 className="border px-1 mb-2 w-full"
               />
             </div>
@@ -158,11 +124,15 @@ export default function CreateEstimatePage() {
                 Address
               </label>
               <input
-                onChange={handleAddressChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    address: e.target.value,
+                  })
+                }
                 type="text"
                 id="address"
                 name="address"
-                value={formData.address}
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -172,27 +142,34 @@ export default function CreateEstimatePage() {
                 City
               </label>
               <input
-                onChange={handleCityChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    city: e.target.value,
+                  })
+                }
                 type="text"
                 id="city"
                 name="city"
-                value={formData.city}
                 className="border px-1 mb-2 w-full"
                 maxLength={25}
                 required
               />
             </div>
-
             <div>
               <label htmlFor="state" className="block">
                 State
               </label>
               <input
-                onChange={handleStateChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    state: e.target.value,
+                  })
+                }
                 type="text"
                 id="state"
                 name="state"
-                value={formData.state}
                 className="border px-1 mb-2"
                 minLength={2}
                 maxLength={2}
@@ -204,11 +181,15 @@ export default function CreateEstimatePage() {
             <div>
               <label className="block">Zip</label>
               <input
-                onChange={handleZipChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    zip: e.target.value,
+                  })
+                }
                 type="text"
                 id="zip"
                 name="zip"
-                value={formData.zip}
                 className="px-1 border mb-2"
                 minLength={5}
                 maxLength={5}
@@ -219,11 +200,15 @@ export default function CreateEstimatePage() {
             <div>
               <label className="block">Phone</label>
               <input
-                onChange={handlePhoneChange}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    phone: e.target.value,
+                  })
+                }
                 type="tel"
                 id="phone"
                 name="phone"
-                value={formData.phone}
                 className="px-1 border mb-10 placeholder:text-center"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 maxLength={12}
@@ -234,6 +219,7 @@ export default function CreateEstimatePage() {
             </div>
           </div>
         </fieldset>
+        {/* Estimate Fields */}
         <fieldset>
           <legend className="text-2xl mb-8">Job Details</legend>
           <div className="px-4">
@@ -256,7 +242,6 @@ export default function CreateEstimatePage() {
                       className="border flex justify-self-center py-1 px-2 leading-snug"
                       rows={3}
                       maxLength={75}
-                      required
                     />
                   </td>
                   <td className="p-2 border-l border-gray-400 text-right">
@@ -265,7 +250,6 @@ export default function CreateEstimatePage() {
                       id="qty"
                       name="qty"
                       className="border flex justify-self-center text-right pr-2"
-                      required
                     />
                   </td>
                   <td className="p-2 border-l border-gray-400 text-right">
@@ -274,7 +258,6 @@ export default function CreateEstimatePage() {
                       id="rate"
                       name="rate"
                       className="border flex justify-self-center text-right pr-2"
-                      required
                     />
                   </td>
                   <td className="p-2 border-l border-gray-400 text-right">
@@ -283,7 +266,6 @@ export default function CreateEstimatePage() {
                       id="amount"
                       name="amount"
                       className="border flex justify-self-center text-right pr-2"
-                      required
                     />
                   </td>
                 </tr>
@@ -299,7 +281,6 @@ export default function CreateEstimatePage() {
                         className="border flex justify-self-center py-1 px-2 leading-snug"
                         rows={3}
                         maxLength={75}
-                        required
                       />
                     </td>
                     <td className="p-2 border-l border-gray-400 text-right">
@@ -310,7 +291,6 @@ export default function CreateEstimatePage() {
                           handleInputChange(row.id, "qty", e.target.value)
                         }
                         className="border flex justify-self-center text-right pr-2"
-                        required
                       />
                     </td>
                     <td className="p-2 border-l border-gray-400 text-right">
@@ -321,7 +301,6 @@ export default function CreateEstimatePage() {
                           handleInputChange(row.id, "rate", e.target.value)
                         }
                         className="border flex justify-self-center text-right pr-2"
-                        required
                       />
                     </td>
                     <td className="p-2 border-l border-gray-400 text-right ">
@@ -332,7 +311,6 @@ export default function CreateEstimatePage() {
                           handleInputChange(row.id, "amount", e.target.value)
                         }
                         className="border flex justify-self-center text-right pr-2"
-                        required
                       />
                     </td>
                   </tr>
