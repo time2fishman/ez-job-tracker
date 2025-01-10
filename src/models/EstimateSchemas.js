@@ -1,6 +1,23 @@
 import mongoose, { Schema, models } from "mongoose";
 
-const CustomerSchema = new Schema(
+const EstimateRowSchema = new Schema(
+  {
+    itemDescription: {
+      type: String
+    },
+    quantity: {
+      type: String
+    },
+    rate: {
+      type: String
+    },
+    amount: {
+      type: String
+    },
+  }
+)
+
+const EstimateSchema = new Schema(
   {
     firstName: {
       type: String
@@ -26,18 +43,14 @@ const CustomerSchema = new Schema(
     phone: {
       type: String
     },
-    image: {
+    estimateRows: [EstimateRowSchema],
+    total: {
       type: String
-    },
-    estimates: {
-      type: [String]
-    },
-    invoices: {
-      type: [String]
     }
   }
 )
 
-const Customer = models.Customer || mongoose.model('Customer', CustomerSchema)
 
-export default Customer
+const Estimate = models.Estimate || mongoose.model('Estimate', EstimateSchema)
+
+export default Estimate

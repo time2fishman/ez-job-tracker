@@ -1,7 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { debounce } from "lodash";
 
 export default function CreateEstimatePage() {
   const [rows, setRows] = useState([]);
@@ -14,14 +15,75 @@ export default function CreateEstimatePage() {
     state: "",
     zip: "",
     phone: "",
+    estimateRows: [],
+    total: "0.00",
   });
+
+  useEffect(() => {
+    const updatedTotal = calculateTotal(rows);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      total: updatedTotal,
+      estimateRows: rows,
+    }));
+  }, [rows]); // Recalculate total when rows change
+
+  const handleInputChange = debounce((id, field, value) => {
+    setRows((prevRows) => {
+      const updatedRows = prevRows.map((row) => {
+        if (row.id === id) {
+          // If field is either quantity or rate, recalculate amount
+          if (field === "quantity" || field === "rate") {
+            const quantity =
+              field === "quantity"
+                ? parseFloat(value) || 0
+                : parseFloat(row.quantity) || 0;
+            const rate =
+              field === "rate"
+                ? parseFloat(value) || 0
+                : parseFloat(row.rate) || 0;
+            const amount = (quantity * rate).toFixed(2); // Recalculate amount based on quantity and rate
+            return { ...row, [field]: value, amount };
+          } else {
+            return { ...row, [field]: value }; // Just update the field if it's not quantity or rate
+          }
+        }
+        return row;
+      });
+      return updatedRows;
+    });
+  });
+
+  const addRow = () => {
+    setRows([
+      ...rows,
+      {
+        id: Date.now(),
+        itemDescription: "",
+        quantity: "",
+        rate: "",
+        amount: "0.00",
+      },
+    ]);
+  };
+
+  const calculateTotal = (updatedRows) => {
+    return updatedRows
+      .reduce((total, row) => {
+        const amount = parseFloat(row.amount) || 0;
+        return total + amount;
+      }, 0)
+      .toFixed(2);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const { firstName, lastName, email, address, city, state, zip, phone } =
         formData;
-      const response = await axios.post("../../api/customers", {
+      const totalAmount = formData.total;
+      const updatedFormData = {
         firstName,
         lastName,
         email,
@@ -30,29 +92,14 @@ export default function CreateEstimatePage() {
         state,
         zip,
         phone,
-      });
+        estimateRows: rows,
+        total: totalAmount, // Use the total from formData
+      };
+      const response = await axios.post("../../api/estimates", updatedFormData);
+      // console.log("Estimate Created:", response); // Log the response if needed
     } catch (err) {
-      console.log(err);
+      console.error("Error creating estimate:", err);
     }
-  };
-
-  const addRow = () => {
-    setRows([
-      ...rows,
-      {
-        id: Date.now(),
-        itemDescription: "",
-        qty: "",
-        rate: "",
-        amount: "",
-      },
-    ]);
-  };
-
-  const handleInputChange = (id, field, value) => {
-    setRows((prevRows) =>
-      prevRows.map((row) => (row.id === id ? { ...row, [field]: value } : row))
-    );
   };
 
   return (
@@ -64,7 +111,7 @@ export default function CreateEstimatePage() {
           <legend className="text-2xl mb-8">Customer Information</legend>
           <div className="max-w-xs px-4">
             <div>
-              <label htmlFor="fname" className="block">
+              <label htmlFor="firstName" className="block">
                 First Name
               </label>
               <input
@@ -76,14 +123,14 @@ export default function CreateEstimatePage() {
                 }
                 maxLength={50}
                 type="text"
-                id="fname"
-                name="fname"
+                id="firstName"
+                name="firstName"
                 className="border px-1 mb-2 w-full"
                 required
               />
             </div>
             <div>
-              <label htmlFor="lname" className="block">
+              <label htmlFor="lastName" className="block">
                 Last Name
               </label>
               <input
@@ -95,8 +142,8 @@ export default function CreateEstimatePage() {
                 }
                 maxLength={25}
                 type="text"
-                id="lname"
-                name="lname"
+                id="lastName"
+                name="lastName"
                 className="border px-1 mb-2 w-full"
                 required
               />
@@ -179,7 +226,9 @@ export default function CreateEstimatePage() {
               />
             </div>
             <div>
-              <label className="block">Zip</label>
+              <label htmlFor="zip" className="block">
+                Zip
+              </label>
               <input
                 onChange={(e) =>
                   setFormData({
@@ -198,7 +247,9 @@ export default function CreateEstimatePage() {
               />
             </div>
             <div>
-              <label className="block">Phone</label>
+              <label htmlFor="phone" className="block">
+                Phone
+              </label>
               <input
                 onChange={(e) =>
                   setFormData({
@@ -227,56 +278,24 @@ export default function CreateEstimatePage() {
               <thead>
                 <tr className="bg-gray-600 text-gray-300 text-left border border-gray-400">
                   <th className="p-2">Item Description</th>
-                  <th className="p-2">Qty</th>
+                  <th className="p-2">Quantity</th>
                   <th className="p-2">Rate</th>
                   <th className="p-2">Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border border-gray-400">
-                  <td className="p-2">
-                    <textarea
-                      type="text"
-                      id="item-description"
-                      name="item-description"
-                      className="border flex justify-self-center py-1 px-2 leading-snug"
-                      rows={3}
-                      maxLength={75}
-                    />
-                  </td>
-                  <td className="p-2 border-l border-gray-400 text-right">
-                    <input
-                      type="text"
-                      id="qty"
-                      name="qty"
-                      className="border flex justify-self-center text-right pr-2"
-                    />
-                  </td>
-                  <td className="p-2 border-l border-gray-400 text-right">
-                    <input
-                      type="text"
-                      id="rate"
-                      name="rate"
-                      className="border flex justify-self-center text-right pr-2"
-                    />
-                  </td>
-                  <td className="p-2 border-l border-gray-400 text-right">
-                    <input
-                      type="text"
-                      id="amount"
-                      name="amount"
-                      className="border flex justify-self-center text-right pr-2"
-                    />
-                  </td>
-                </tr>
                 {rows.map((row) => (
                   <tr key={row.id} className="border border-gray-400">
                     <td className="p-2">
                       <textarea
                         type="text"
-                        value={row.firstName}
+                        value={row.itemDescription}
                         onChange={(e) =>
-                          handleInputChange(row.id, "firstName", e.target.value)
+                          handleInputChange(
+                            row.id,
+                            "itemDescription",
+                            e.target.value
+                          )
                         }
                         className="border flex justify-self-center py-1 px-2 leading-snug"
                         rows={3}
@@ -286,9 +305,9 @@ export default function CreateEstimatePage() {
                     <td className="p-2 border-l border-gray-400 text-right">
                       <input
                         type="text"
-                        value={row.qty}
+                        value={row.quantity}
                         onChange={(e) =>
-                          handleInputChange(row.id, "qty", e.target.value)
+                          handleInputChange(row.id, "quantity", e.target.value)
                         }
                         className="border flex justify-self-center text-right pr-2"
                       />
@@ -303,14 +322,12 @@ export default function CreateEstimatePage() {
                         className="border flex justify-self-center text-right pr-2"
                       />
                     </td>
-                    <td className="p-2 border-l border-gray-400 text-right ">
+                    <td className="p-2 border-l border-gray-400 text-right">
                       <input
                         type="text"
                         value={row.amount}
-                        onChange={(e) =>
-                          handleInputChange(row.id, "amount", e.target.value)
-                        }
                         className="border flex justify-self-center text-right pr-2"
+                        readOnly={true}
                       />
                     </td>
                   </tr>
@@ -326,18 +343,6 @@ export default function CreateEstimatePage() {
                     </button>
                   </td>
                 </tr>
-                {/* <tr className="border border-gray-400">
-                <td className="p-2">{estimateData[0].itemDescription2}</td>
-                <td className="p-2 border-l border-gray-400 text-right">
-                  {estimateData[0].qty2}
-                </td>
-                <td className="p-2 border-l border-gray-400 text-right">
-                  {estimateData[0].rate2}
-                </td>
-                <td className="p-2 border-l border-gray-400 text-right">
-                  {estimateData[0].amount1}
-                </td>
-              </tr> */}
               </tbody>
               <tfoot>
                 <tr>
@@ -346,10 +351,12 @@ export default function CreateEstimatePage() {
                   <td className="text-lg text-right pt-6 pb-4 px-2">Total</td>
                   <td className="pt-6 px-2 pb-4 text-right">
                     <input
+                      value={formData.total}
                       type="text"
                       id="total"
                       name="total"
                       className="border flex justify-self-center text-right pr-2"
+                      readOnly={true}
                     />
                   </td>
                 </tr>
