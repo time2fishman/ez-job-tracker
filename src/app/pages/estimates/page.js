@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import EstimateModal from "@/app/pages/_components/EstimateModal/EstimateModal"
 import clientInfo from "@/app/data/client-data.json"
+import Link from "next/link";
 
 export default function EstimatesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,8 +23,10 @@ export default function EstimatesPage() {
         <section className="container px-4 mx-auto mb-20 z-0">
           <h1 id="heading" className="text-4xl mt-10 mb-4">Estimates</h1>
           <div className="pb-4 text-right">
-            <button
-              className="bg-indigo-700 p-1.5 border rounded font-semibold hover:bg-indigo-500 active:bg-indigo-800 ">Create New Estimate</button>
+            <Link href={'/pages/createestimate'}>
+              <button
+                className="bg-indigo-700 p-1.5 border rounded font-semibold hover:bg-indigo-500 active:bg-indigo-800 ">Create New Estimate</button>
+            </Link>
           </div>
           <div className="flex flex-col">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -37,7 +40,6 @@ export default function EstimatesPage() {
                             <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
                             <button className="flex items-center gap-x-2">
                               <span>Estimate</span>
-
                               <svg className="h-3" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z" fill="currentColor" stroke="currentColor" strokeWidth="0.1" />
                                 <path d="M0.722656 9.60832L3.09974 6.78633H0.811638V5.87109H4.35819V6.78633L2.01925 9.60832H4.43446V10.5617H0.722656V9.60832Z" fill="currentColor" stroke="currentColor" strokeWidth="0.1" />
@@ -81,21 +83,40 @@ export default function EstimatesPage() {
                               </td>
                               <td key={`date-${estimate.estimateId}`} className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{estimate.estimateDate}</td>
                               <td key={`status-${estimate.estimateId}`} className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                {estimate.status === "Accepted" ?
+                                {estimate.status === "Accepted" ? (
                                   <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                     <h2 className="text-sm font-normal">{estimate.status}</h2>
                                   </div>
-                                  :
+                                ) : estimate.status === "Pending" ? (
+                                  <div className="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-yellow-500 bg-yellow-100/60 dark:bg-gray-800">
+                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                      {/* <!-- Clock Circle --> */}
+                                      <circle cx="6" cy="6" r="5.5" stroke="currentColor" strokeWidth="1" fill="none" />
+
+                                      {/* <!-- Clock Hour Hand --> */}
+                                      <line x1="6" y1="6" x2="6" y2="2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+
+                                      {/* <!-- Clock Minute Hand --> */}
+                                      <line x1="6" y1="6" x2="9" y2="6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+
+                                      {/* <!-- Clock Center --> */}
+                                      <circle cx="6" cy="6" r="0.3" fill="currentColor" />
+                                    </svg>
+
+                                    <h2 className="text-sm font-normal">{estimate.status}</h2>
+                                  </div>
+                                ) : (
                                   <div className="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                     <h2 className="text-sm font-normal">{estimate.status}</h2>
                                   </div>
-                                }
+                                )}
+
                               </td>
                               <td key={`customer-${estimate.estimateId}`} className="pl-4 pr-8 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                 <div className="flex items-center gap-x-2">

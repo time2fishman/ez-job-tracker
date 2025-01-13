@@ -46,6 +46,39 @@
       {
         "estimateId": 9027949,
         "estimateDate": "12/26/2024",
+        "status": "Pending",
+        "purchase": "None",
+        "dueDate": "01/15/2024",
+        "itemDescription1": "Remodel bathrrom",
+        "itemDescription2": "Materials",
+        "itemDescription3": "Disposal Fee",
+        "qty1": 24,
+        "qty2": 1,
+        "qty3": 1,
+        "rate1": "50.00",
+        "rate2": "N/A",
+        "rate3": "15.00",
+        "amount1": "1200.00",
+        "amount2": "550.00",
+        "amount3": "15.00",
+        "total": "1765.00"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "firstName": "Jake",
+    "lastName": "martin",
+    "email": "jakem@gmail.com",
+    "address": "4355 Wren Rd",
+    "city": "Blah",
+    "state": "WI",
+    "zip": 12324,
+    "image": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
+    "estimates": [
+      {
+        "estimateId": 9027949,
+        "estimateDate": "12/26/2024",
         "status": "Declined",
         "purchase": "None",
         "dueDate": "01/15/2024",

@@ -1,28 +1,5 @@
 import Link from "next/link";
 
-const response = await fetch('http://localhost:3000/api/users/create', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    firstName: "Steve",
-    lastName: "Stevenson",
-    email: "stevestevenson@fake.com",
-    address: "9874 w 343 s",
-    city: 'Rummy',
-    state: 'JE',
-    zip: '15798',
-    phone: '555-666-7777',
-    image: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80',
-    estimates: [null],
-    invoices: [null]
-  })
-})
-
-const data = await response.json()
-console.log(data);
-
 export default function Home() {
   const quickViewCalendar = process.env.QUICK_VIEW_CALENDAR
 
@@ -33,7 +10,7 @@ export default function Home() {
       </h1>
       <main>
         <div className=" flex justify-center mt-8 mb-16">
-          <Link href={'/estimates'}>
+          <Link href={'/pages/createestimate'}>
             <button className="mr-2 bg-indigo-700 p-3.5 border rounded font-semibold hover:bg-indigo-500 active:bg-indigo-800">Create New Estimate</button>
           </Link>
           <Link href={'/invoices'}>
