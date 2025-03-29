@@ -25,7 +25,7 @@ export default function Home() {
           <div className="flex calendar-text">
             <h2 className="text-center text-2xl mb-2">Calendar Quick View</h2>
             <Link href={"/pages/calendar"}>
-              <button className="flex justify-self-center mb-5 text-gray-400 hover:bg-gray-800 hover:text-gray-200 active:text-white p-1.5 hover:rounded hover:border Íactive:rounded active:bg-gray-600">
+              <button className="flex justify-self-center mb-5 text-gray-400 hover:bg-gray-600 hover:text-gray-200 active:text-white p-1.5 hover:rounded hover:border active:rounded active:bg-gray-600">
                 Open Calendar
               </button>
             </Link>

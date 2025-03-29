@@ -11,6 +11,9 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import Logo from "../../../../public/Adam_Logo.png";
+import { useRouter } from "next/navigation";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -25,6 +28,10 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const handleLogoClick = () => {
+    router.push("/");
+  };
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -47,10 +54,11 @@ export default function Navbar() {
           </div>
           <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex shrink-0 items-center">
-              <img
+              <Image
+              onClick={handleLogoClick}
                 alt="Your Company"
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
+                src={Logo}
+                className="h-9 w-auto cursor-pointer"
               />
             </div>
             <div className="hidden sm:ml-6 sm:block">

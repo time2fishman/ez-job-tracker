@@ -9,6 +9,8 @@ export default function CreateEstimatePage() {
   const [zipTouched, setZipTouched] = useState(false);
   const [stateTouched, setStateTouched] = useState(false);
   const [phoneTouched, setPhoneTouched] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -71,7 +73,8 @@ export default function CreateEstimatePage() {
 
   const isZipValidLength = formData.zip.length === 5;
   const isStateValidLength = formData.state.length === 2;
-  const isPhoneValidLength = formData.phone.length === 10;
+  const isPhoneValidLength =
+    formData.phone.replace(/[^0-9]/g, "").length === 10;
 
   const handleZipBlur = () => {
     setZipTouched(true); // Mark the input as touched when the user leaves it
@@ -126,14 +129,44 @@ export default function CreateEstimatePage() {
       };
       const response = await axios.post("../../api/estimates", updatedFormData);
       // console.log("Estimate Created:", response); // Log the response if needed
+      if (response.status === 201) {
+        setSuccessMessage("Estimate created successfully!");
+        setErrorMessage(""); // Clear any previous error message
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          address: "",
+          city: "",
+          state: "",
+          zip: "",
+          phone: "",
+          estimateRows: [],
+          total: "0.00",
+        }); // Reset form
+        setRows([]); // Clear rows
+      }
     } catch (err) {
       console.error("Error creating estimate:", err);
+      setErrorMessage("Failed to create the estimate. Please try again."); // Set error message
+      setSuccessMessage(""); // Clear any previous success message
     }
   };
 
   return (
     <div className="m-auto bg-gray-100 text-black min-w-fit max-w-4xl">
       <h1 className="text-4xl pt-10 pb-10 ml-4">Create New Estimate</h1>
+      {/* Display success or error messages */}
+      {successMessage && (
+        <div className="bg-green-100 text-green-800 p-4 rounded mb-4 text-center m-auto w-1/2">
+          {successMessage}
+        </div>
+      )}
+      {errorMessage && (
+        <div className="bg-red-100 text-red-800 p-4 rounded mb-4 text-center m-auto w-1/2">
+          {errorMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="mx-8">
         {/* Customer Fields */}
         <fieldset className="mb-8">
@@ -150,6 +183,7 @@ export default function CreateEstimatePage() {
                     firstName: e.target.value,
                   })
                 }
+                value={formData.firstName}
                 maxLength={50}
                 type="text"
                 id="firstName"
@@ -169,6 +203,7 @@ export default function CreateEstimatePage() {
                     lastName: e.target.value,
                   })
                 }
+                value={formData.lastName}
                 maxLength={25}
                 type="text"
                 id="lastName"
@@ -188,6 +223,7 @@ export default function CreateEstimatePage() {
                     email: e.target.value,
                   })
                 }
+                value={formData.email}
                 maxLength={25}
                 type="email"
                 id="email"
@@ -206,6 +242,7 @@ export default function CreateEstimatePage() {
                     address: e.target.value,
                   })
                 }
+                value={formData.address}
                 type="text"
                 id="address"
                 name="address"
@@ -241,6 +278,7 @@ export default function CreateEstimatePage() {
                     city: capitalizeWords(filteredValue),
                   });
                 }}
+                value={formData.city}
                 type="text"
                 id="city"
                 name="city"
@@ -260,6 +298,7 @@ export default function CreateEstimatePage() {
                     state: e.target.value.toUpperCase(),
                   })
                 }
+                value={formData.state}
                 onBlur={handleStateBlur}
                 pattern="[A-Za-z]{2}"
                 onInput={(e) => {
@@ -315,14 +354,6 @@ export default function CreateEstimatePage() {
               <input
                 onChange={(e) => {
                   const numericValue = e.target.value.replace(/[^0-9]/g, ""); // Ensure only numbers are entered
-                  setFormData({
-                    ...formData,
-                    phone: numericValue,
-                  });
-                }}
-                onInput={(e) => {
-                  // Format phone number as user types
-                  const numericValue = e.target.value.replace(/[^0-9]/g, "");
                   let formattedValue = numericValue;
 
                   // Apply format for phone number (XXX-XXX-XXXX)
@@ -338,10 +369,15 @@ export default function CreateEstimatePage() {
                     formattedValue = `${numericValue.slice(
                       0,
                       3
-                    )}-${numericValue.slice(3, 6)}`;
+                    )}-${numericValue.slice(3)}`;
                   }
-                  e.target.value = formattedValue;
+
+                  setFormData({
+                    ...formData,
+                    phone: formattedValue, // Update state with formatted value
+                  });
                 }}
+                value={formData.phone} // Controlled input bound to formData.phone
                 onBlur={handlePhoneBlur}
                 type="tel"
                 id="phone"
@@ -354,7 +390,7 @@ export default function CreateEstimatePage() {
                 required
               />
               {phoneTouched && !isPhoneValidLength && formData.phone && (
-                <p id="zip-error" style={{ color: "red" }}>
+                <p id="phone-error" style={{ color: "red" }}>
                   Phone code must be exactly 10 digits.
                 </p>
               )}
