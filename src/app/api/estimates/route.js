@@ -24,6 +24,9 @@ export async function POST(request) {
   try {
     await connectionToDatabase();
     const {
+      estimateId,
+      date,
+      status,
       firstName,
       lastName,
       email,
@@ -36,6 +39,9 @@ export async function POST(request) {
       total,
     } = await request.json();
     const newEstimate = new Estimate({
+      estimateId,
+      date,
+      status,
       firstName,
       lastName,
       email,

@@ -12,6 +12,9 @@ export default function CreateEstimatePage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
+    estimateId: "",
+    date: "",
+    status: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -23,6 +26,24 @@ export default function CreateEstimatePage() {
     estimateRows: [],
     total: "0.00",
   });
+
+  // Set the default date to the current date in YYYY-MM-DD format
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      date: today, // Set the default date
+    }));
+    console.log("added date");
+  }, []);
+
+  // Generate estimateId on the client side after the component mounts
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      estimateId: `${Date.now()}`,
+    }));
+  }, []);
 
   useEffect(() => {
     const updatedTotal = calculateTotal(rows);
@@ -112,10 +133,24 @@ export default function CreateEstimatePage() {
     e.preventDefault();
 
     try {
-      const { firstName, lastName, email, address, city, state, zip, phone } =
-        formData;
+      const {
+        estimateId,
+        date,
+        status,
+        firstName,
+        lastName,
+        email,
+        address,
+        city,
+        state,
+        zip,
+        phone,
+      } = formData;
       const totalAmount = formData.total;
       const updatedFormData = {
+        estimateId,
+        date,
+        status,
         firstName,
         lastName,
         email,
@@ -133,6 +168,9 @@ export default function CreateEstimatePage() {
         setSuccessMessage("Estimate created successfully!");
         setErrorMessage(""); // Clear any previous error message
         setFormData({
+          estimateId: "",
+          date: "",
+          status: "",
           firstName: "",
           lastName: "",
           email: "",
@@ -156,6 +194,30 @@ export default function CreateEstimatePage() {
   return (
     <div className="m-auto bg-gray-100 text-black min-w-fit max-w-4xl">
       <h1 className="text-4xl pt-10 pb-10 ml-4">Create New Estimate</h1>
+      <div className="mb-4 px-4 flex justify-between">
+        <div className="ml-8">
+          <label htmlFor="date" className="block mr-2">
+            Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={formData.date}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                date: e.target.value,
+              })
+            }
+            className="border px-1 mb-2 w-auto"
+            required
+          />
+        </div>
+        <h4 className="text-xl mb-4 text-right mr-4">
+          Estimate Id: <span>{formData.estimateId}</span>
+        </h4>
+      </div>
       {/* Display success or error messages */}
       {successMessage && (
         <div className="bg-green-100 text-green-800 p-4 rounded mb-4 text-center m-auto w-1/2">

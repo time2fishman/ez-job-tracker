@@ -6,9 +6,10 @@ import Logo from "../../../../../public/Adam_logo.png";
 import Image from "next/image";
 import html2canvas from "html2canvas";
 import React, { useRef } from "react";
+import formatDate from "../../../../utils/dateUtils";
 
-function EstimateModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
+function EstimateModal({ isOpen, onClose, estimate }) {
+  if (!isOpen || !estimate) return null;
 
   const pdfRef = useRef();
 
@@ -57,27 +58,25 @@ function EstimateModal({ isOpen, onClose }) {
         <div>
           <h3>Bill To:</h3>
           <p className="text-gray-500 py-1">
-            {data[0].firstName} {data[0].lastName}
+            {estimate.firstName} {estimate.lastName}
           </p>
-          <p className="text-gray-500 py-1">{data[0].address}</p>
+          <p className="text-gray-500 py-1">{estimate.address}</p>
           <p className="text-gray-500 pt-1">
-            {data[0].city}, {data[0].state} {data[0].zip}
+            {estimate.city}, {estimate.state} {estimate.zip}
           </p>
+          <p className="text-gray-500 pt-1">{estimate.phone}</p>
+          <p className="text-gray-500 pt-1 pb-5">{estimate.email}</p>
         </div>
         <div className="flex grow justify-center mb-20">
           <div>
             <p className="py-1">Estimate#</p>
             <p className="py-1">Estimate Date </p>
-            <p className="pt-1">Due Date</p>
           </div>
           <div>
+            <p className="text-gray-500 pl-5 py-1">{estimate.estimateId}</p>
             <p className="text-gray-500 pl-5 py-1">
-              {estimateData[0].estimateId}
+              {estimate.date ? formatDate(estimate.date) : "N/A"}
             </p>
-            <p className="text-gray-500 pl-5 py-1">
-              {estimateData[0].estimateDate}
-            </p>
-            <p className="text-gray-500 pl-5 pt-1">{estimateData[0].dueDate}</p>
           </div>
         </div>
       </div>
