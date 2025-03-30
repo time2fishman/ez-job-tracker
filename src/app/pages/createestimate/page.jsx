@@ -34,7 +34,6 @@ export default function CreateEstimatePage() {
       ...prevFormData,
       date: today, // Set the default date
     }));
-    console.log("added date");
   }, []);
 
   // Generate estimateId on the client side after the component mounts
@@ -163,7 +162,7 @@ export default function CreateEstimatePage() {
         total: totalAmount, // Use the total from formData
       };
       const response = await axios.post("../../api/estimates", updatedFormData);
-      // console.log("Estimate Created:", response); // Log the response if needed
+
       if (response.status === 201) {
         setSuccessMessage("Estimate created successfully!");
         setErrorMessage(""); // Clear any previous error message
